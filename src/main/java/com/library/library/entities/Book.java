@@ -20,7 +20,31 @@ public class Book {
 	private String name;
 	private int total;
 	private int available;
+	private boolean active;
 	
+	public Book update(Book b) {
+		if(b.getAuthor() != null) 
+			this.author = b.getAuthor();
+		if(b.getAvailable() != -1)
+			this.available = b.getAvailable();
+		if(b.getType() != null)
+			this.type = b.getType();
+		if(b.getName() != null)
+			this.name = b.getName();
+		return this;
+	}
+	
+	@Override
+	public String toString() {
+		return "Book [id=" + id + ", type=" + type + ", author=" + author + ", name=" + name + ", total=" + total
+				+ ", available=" + available + ", active=" + active + "]";
+	}
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 	public int getId() {
 		return id;
 	}
