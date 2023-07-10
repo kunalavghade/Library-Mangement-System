@@ -1,5 +1,7 @@
 package com.library.library.entities;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +18,14 @@ public class User {
 	private String email;
 	private String password;
 	private boolean isenable;
+	private LocalDate date;
+	
+	public LocalDate getDate() {
+		return date;
+	}
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
 	public int getId() {
 		return id;
 	}

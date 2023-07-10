@@ -1,5 +1,7 @@
 package com.library.library.entities;
 
+import java.time.LocalDate;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,7 +23,16 @@ public class Book {
 	private int total;
 	private int available;
 	private boolean active;
+	private LocalDate date;
 	
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+
 	public Book update(Book b) {
 		if(b.getAuthor() != null) 
 			this.author = b.getAuthor();
@@ -37,7 +48,7 @@ public class Book {
 	@Override
 	public String toString() {
 		return "Book [id=" + id + ", type=" + type + ", author=" + author + ", name=" + name + ", total=" + total
-				+ ", available=" + available + ", active=" + active + "]";
+				+ ", available=" + available + ", active=" + active + ", date=" + date + "]";
 	}
 	public boolean isActive() {
 		return active;

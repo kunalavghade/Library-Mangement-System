@@ -1,5 +1,6 @@
 package com.library.library.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.library.library.curd.BookService;
@@ -21,12 +23,15 @@ import com.library.library.entities.Book;
 
 
 @RestController
+@RequestMapping("/Book")
 public class BookController {
 	
 	@Autowired
 	private BookService bookServices;
 	
-	@GetMapping("/Book")
+	
+	
+	@GetMapping("/")
 	public ResponseEntity<List<Book>> getBooks() {
 		List<Book> books = this.bookServices.getBooks();
 		if(books.size() <= 0) 
@@ -34,7 +39,7 @@ public class BookController {
 		return ResponseEntity.of(Optional.of(books));
 	}
 
-	@GetMapping("/Book/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Book> getBook(@PathVariable int id) {
 		try {
 			Book book = this.bookServices.findById(id).get();
@@ -46,9 +51,10 @@ public class BookController {
 	}
 
 	
-	@PostMapping("/Book")
+	@PostMapping("/")
 	public ResponseEntity<Book> getBooks(@RequestBody Book book) {
 		try {
+			book.setDate(LocalDate.now());
 			Book b = this.bookServices.save(book);
 			return ResponseEntity.of(Optional.of(b));
 		}catch(Exception e) {
@@ -57,7 +63,7 @@ public class BookController {
 		}
 	}	
 	
-	@DeleteMapping("/Book/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> getBooks(@PathVariable int id) {
 		try {
 			this.bookServices.findById(id).get();
@@ -69,7 +75,7 @@ public class BookController {
 		}
 	}
 	
-	@GetMapping("/Book/page/{num}")
+	@GetMapping("/page/{num}")
 	public ResponseEntity<Page<Book>> getBooksByPage(@PathVariable int num) {
 		try {
 			Page<Book> page = this.bookServices.getBooks(PageRequest.of(num, 7));
@@ -80,7 +86,18 @@ public class BookController {
 		}
 	}
 	
-	@PutMapping("/Book")
+	@GetMapping("/recent")
+	public ResponseEntity<List<Book>> getBooksByPage() {
+		try {
+			List<Book> page = this.bookServices.findTop5ByOrderByDateDesc();
+			return ResponseEntity.of(Optional.of(page));
+		}catch(Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+	
+	@PutMapping("/")
 	public ResponseEntity<Book> updateBook(@RequestBody Book book) {
 		try {
 			int id = book.getId();
