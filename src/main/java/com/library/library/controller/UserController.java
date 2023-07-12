@@ -1,6 +1,5 @@
 package com.library.library.controller;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +28,6 @@ public class UserController {
 	@PostMapping("/")
 	public ResponseEntity<User> saveUser(@RequestBody User user) {
 		try {
-			user.setDate(LocalDate.now());
 			user = this.userService.save(user);
 			return ResponseEntity.of(Optional.of(user));
 		}

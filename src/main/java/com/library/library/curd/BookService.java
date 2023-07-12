@@ -25,6 +25,6 @@ public interface BookService extends JpaRepository<Book, Integer>{
 	@Query("FROM Book AS  b WHERE b.active = TRUE")
 	public Page<Book> getBooks(Pageable p);
 	
-	public List<Book> findTop5ByOrderByDateDesc();
+	public List<Book> findTop5ByOrderByCreatedDateDesc();
 	
 }

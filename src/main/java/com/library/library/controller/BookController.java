@@ -1,6 +1,5 @@
 package com.library.library.controller;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,7 +53,6 @@ public class BookController {
 	@PostMapping("/")
 	public ResponseEntity<Book> getBooks(@RequestBody Book book) {
 		try {
-			book.setDate(LocalDate.now());
 			Book b = this.bookServices.save(book);
 			return ResponseEntity.of(Optional.of(b));
 		}catch(Exception e) {
@@ -89,7 +87,7 @@ public class BookController {
 	@GetMapping("/recent")
 	public ResponseEntity<List<Book>> getBooksByPage() {
 		try {
-			List<Book> page = this.bookServices.findTop5ByOrderByDateDesc();
+			List<Book> page = this.bookServices.findTop5ByOrderByCreatedDateDesc();
 			return ResponseEntity.of(Optional.of(page));
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -101,8 +99,14 @@ public class BookController {
 	public ResponseEntity<Book> updateBook(@RequestBody Book book) {
 		try {
 			int id = book.getId();
+			
 			Book b = this.bookServices.findById(id).get();
-			this.bookServices.save(b.update(book));
+			if(book.getName() != null) b.setName(book.getName());
+			if(book.getAuthor() != null) b.setAuthor(book.getAuthor());
+			if(book.getAvailable() != -1) b.setAvailable(book.getAvailable());
+			if(book.getType() != null) b.setType(book.getType());
+			
+			this.bookServices.save(b);
 			b = this.bookServices.findById(id).get();
 			return ResponseEntity.of(Optional.of(b));
 		}
