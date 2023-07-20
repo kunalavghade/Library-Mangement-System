@@ -29,6 +29,7 @@ public class UserController {
 	public ResponseEntity<User> saveUser(@RequestBody User user) {
 		try {
 			user = this.userService.save(user);
+			System.out.println(Optional.of(null));
 			return ResponseEntity.of(Optional.of(user));
 		}
 		catch(Exception e) {
